@@ -73,6 +73,13 @@
   width: 66vw;
 }
 
+.info {
+  display: none;
+  background-color: red;
+  height: 10px;
+  width: 10px;
+}
+
 #royalFlush {
   display: flex;
   margin-left: 20px;
@@ -84,19 +91,15 @@
   color: #d6d24d;
 }
 
-.info {
-  display: none;
-  background-color: red;
-  height: 10px;
-  width: 10px;
-}
-
-
 #straightFlush {
   display: flex;
   margin-left: 20px;
   align-items: center;
   position: relative;
+}
+
+#straightFlush:hover {
+  color: #d6d24d;
 }
 
 #quads {
@@ -106,11 +109,19 @@
   position: relative;
 }
 
+#quads:hover {
+  color: #d6d24d;
+}
+
 #fullHouse {
   display: flex;
   margin-left: 20px;
   align-items: center;
   position: relative;
+}
+
+#fullHouse:hover {
+  color: #d6d24d;
 }
 
 #flush {
@@ -120,11 +131,19 @@
   position: relative;
 }
 
+#flush:hover {
+  color: #d6d24d;
+}
+
 #straight {
   display: flex;
   margin-left: 20px;
   align-items: center;
   position: relative;
+}
+
+#straight:hover {
+  color: #d6d24d;
 }
 
 #trips {
@@ -134,11 +153,19 @@
   position: relative;
 }
 
+#trips:hover {
+  color: #d6d24d;
+}
+
 #twoPair {
   display: flex;
   margin-left: 20px;
   align-items: center;
   position: relative;
+}
+
+#twoPair:hover {
+  color: #d6d24d;
 }
 
 #pair {
@@ -148,11 +175,19 @@
   position: relative;
 }
 
+#pair:hover {
+  color: #d6d24d;
+}
+
 #highCard {
   display: flex;
   margin-left: 20px;
   align-items: center;
   position: relative;
+}
+
+#highCard:hover {
+  color: #d6d24d;
 }
 
 .cardText {
@@ -215,6 +250,35 @@
   border-top-right-radius: 6px;
 }
 
+.diamondImg {
+  position: absolute;
+  width: 18px;
+  margin-left: 17px;
+  margin-top: 12px;
+}
+
+.clubImg {
+  position: absolute;
+  height: 23px;
+  margin-left: 13px;
+  margin-top: 14px;
+}
+
+.heartImg {
+  position: absolute;
+  width: 19px;
+  margin-left: 16px;
+  margin-top: 14px;
+}
+
+.spadeImg {
+  position: absolute;
+  width: 20px;
+  margin-left: 15px;
+  margin-top: 11px;
+}
+
+
 #rf2card {
   color: red;
   font-size: 22px;
@@ -229,7 +293,7 @@
 }
 
 #s2card {
-  color: black;
+  color: red;
   font-size: 22px;
   background-color: white;
   display: flex;
@@ -281,7 +345,7 @@
 }
 
 #tp2card {
-  color: black;
+  color: red;
   font-size: 22px;
   background-color: white;
   display: flex;
@@ -320,7 +384,7 @@
 }
 
 #f2card {
-  color: black;
+  color: red;
   font-size: 22px;
   background-color: white;
   display: flex;
