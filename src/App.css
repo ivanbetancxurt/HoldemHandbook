@@ -74,10 +74,28 @@
 }
 
 .info {
+  position: relative;
   display: none;
-  background-color: red;
-  height: 10px;
-  width: 10px;
+  margin-top: 15px;
+  color: white;
+  height: 350px;
+  width: 440px;
+
+}
+
+.infoTitle {
+  position: absolute;
+  font-size: 25px;
+  margin-top: -5px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.infoText {
+  position: absolute;
+  display: flex;
+  margin-top: 40px;
+  justify-content: center;
 }
 
 #royalFlush {
@@ -408,6 +426,15 @@
   border-top-right-radius: 6px;
   margin-left: 122px;
 }
+
+.underlines {
+  position: absolute;
+  height: 0;
+  border-top: 2px dashed white;
+  margin-left: 190px;
+  margin-top: 49px;
+}
+
 
 #strongest {
   position: absolute;

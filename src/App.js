@@ -1,5 +1,6 @@
 import './App.css';
 import React, {useState} from 'react';
+import {Context, Text} from 'react-mathjax2';
 
 function App() {
   const diamondImg = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1f/Card_diamond.svg/1200px-Card_diamond.svg.png';
@@ -16,9 +17,36 @@ function App() {
 
   const [infoContent, setInfoContent] = useState(<div></div>);
 
+
   const click = () => {
       setPanelVisible(!panelVisible);
   };
+
+  let j = '\\[∫4x\\]'
+
+
+  //LAST TEST: CREATE WRITEMATHJAX FUNCTION THAT IS CALLED IN A REACT ELEMENT THAT RETURNS MATHCONTEXT
+  function CardGraphic({rank}) {
+      //let t = writeMath({rank});
+
+      return (
+          <>
+              <div className='cardText'>
+
+                  {rank}
+
+              </div>
+          </>
+      )
+  }
+
+  function Math({text}) {
+      return (
+          <Context>
+              <Text text={text} />
+          </Context>
+      )
+  }
 
   function HandInfo({content}) {
       return (
@@ -27,6 +55,25 @@ function App() {
           </div>
       )
   }
+
+  function HandUnderliner({handLength}) {
+      let width = 0;
+
+      if (handLength === 1) width = 35;
+
+      else if (handLength === 2) width = 74.5;
+
+      else if (handLength === 3) width = 113.5;
+
+      else if (handLength === 4) width = 152.5;
+
+      else if (handLength === 5) width = 191;
+
+      return (
+          <div className='underlines' style={{width: width + 'px'}}></div>
+      )
+  }
+
 
   return (
     <div className='App'>
@@ -46,7 +93,17 @@ function App() {
               <div className='contentPanel'>
                   <div className='hands'>
                       <div id='royalFlush' onMouseEnter={() => {
-                          setInfoContent(<div>nigger</div>);
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>ROYAL FLUSH</p>
+                                  <p className='infoText'>
+                                      The rarest and most formidable hand conceivable in all of
+                                      poker.
+
+                                  </p>
+                                  <Math text={'\\(∫4x\\)'}/>
+                              </div>
+                          );
                           setInfoVisible(true);}}
                           onMouseLeave={() => setInfoVisible(false)}>
                           ROYAL FLUSH
@@ -75,6 +132,7 @@ function App() {
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
+                          <HandUnderliner handLength={5} />
                       </div>
                       <div id='straight' onMouseEnter={() => {
                           setInfoContent(<div>nyeyo</div>);
@@ -106,6 +164,7 @@ function App() {
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
+                          <HandUnderliner handLength={5} />
                       </div>
                       <div id='straightFlush'>
                           STRAIGHT FLUSH
@@ -134,6 +193,7 @@ function App() {
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
+                          <HandUnderliner handLength={5} />
                       </div>
                       <div id='trips'>
                           THREE OF A KIND
@@ -162,6 +222,7 @@ function App() {
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
+                          <HandUnderliner handLength={3} />
                       </div>
                       <div id='quads'>
                           FOUR OF A KIND
@@ -190,6 +251,7 @@ function App() {
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
+                          <HandUnderliner handLength={4} />
                       </div>
                       <div id='twoPair'>
                           TWO PAIR
@@ -218,6 +280,7 @@ function App() {
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
+                          <HandUnderliner handLength={4} />
                       </div>
                       <div id='fullHouse'>
                           FULL HOUSE
@@ -246,6 +309,7 @@ function App() {
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
+                          <HandUnderliner handLength={5} />
                       </div>
                       <div id='pair'>
                           PAIR
@@ -274,6 +338,7 @@ function App() {
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
+                          <HandUnderliner handLength={2} />
                       </div>
                       <div id='flush'>
                           FLUSH
@@ -302,6 +367,7 @@ function App() {
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
+                          <HandUnderliner handLength={5} />
                       </div>
                       <div id='highCard'>
                           HIGH CARD
@@ -330,6 +396,7 @@ function App() {
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
+                          <HandUnderliner handLength={1} />
                       </div>
                   </div>
                   <div id='strongest'>
@@ -344,14 +411,6 @@ function App() {
       </>
     </div>
   );
-}
-
-function CardGraphic({rank}) {
-    return (
-        <div className='cardText'>
-            {rank}
-        </div>
-    )
 }
 
 export default App;
