@@ -11,33 +11,28 @@ function App() {
 
   const spadeImg = 'https://upload.wikimedia.org/wikipedia/en/thumb/b/b8/Card_spade.svg/784px-Card_spade.svg.png';
 
-  const [panelVisible, setPanelVisible] = useState(false);
+  const [buttonMousePosition, setButtonMousePosition] = useState({x: 0, y: 0})
+
+  const [oddsContent, setOddsContent] = useState(false);
+
+  const [yuhContent, setYuhContent] = useState(false);
 
   const [infoVisible, setInfoVisible] = useState(false);
 
   const [infoContent, setInfoContent] = useState(<div></div>);
 
-
-  const click = () => {
-      setPanelVisible(!panelVisible);
+  const showOddsContent = () => {
+      if (yuhContent) setYuhContent(!yuhContent);
+      setOddsContent(!oddsContent);
   };
 
-  let j = '\\[∫4x\\]'
+  const showYuhContent = () => {
+      if (oddsContent) setOddsContent(!oddsContent);
+      setYuhContent(!yuhContent);
+  }
 
-
-  //LAST TEST: CREATE WRITEMATHJAX FUNCTION THAT IS CALLED IN A REACT ELEMENT THAT RETURNS MATHCONTEXT
   function CardGraphic({rank}) {
-      //let t = writeMath({rank});
-
-      return (
-          <>
-              <div className='cardText'>
-
-                  {rank}
-
-              </div>
-          </>
-      )
+      return (<div className='cardText'>{rank}</div>);
   }
 
   function Math({text}) {
@@ -45,7 +40,7 @@ function App() {
           <Context>
               <Text text={text} />
           </Context>
-      )
+      );
   }
 
   function HandInfo({content}) {
@@ -53,7 +48,7 @@ function App() {
           <div className='info' style={{display: infoVisible ? 'flex' : 'none'}}>
               {content}
           </div>
-      )
+      );
   }
 
   function HandUnderliner({handLength}) {
@@ -71,9 +66,18 @@ function App() {
 
       return (
           <div className='underlines' style={{width: width + 'px'}}></div>
-      )
+      );
   }
 
+  const handleOnMouseMove = e => {
+      const {currentTarget: target} = e;
+
+      const rect = target.getBoundingClientRect(),
+          x = e.clientX - rect.left,
+          y = e.clientY - rect.top;
+
+      setButtonMousePosition({x, y});
+  }
 
   return (
     <div className='App'>
@@ -81,15 +85,22 @@ function App() {
           <header className='App-header'>Hold'em Handbook</header>
 
           <div className='App-body'>
-              <button className='Button' onClick={() => click()}>
-                  Odds
+              <button className='Button'
+                      onClick={() => showOddsContent()}
+                      onMouseMove={handleOnMouseMove}
+                      style={{'--mouse-x': `${buttonMousePosition.x}px`,
+                              '--mouse-y': `${buttonMousePosition.y}px`}}>
+                  ODDS
               </button>
-              <button className='Button' onClick={() => click()}>
+              <button className='Button' onClick={() => showYuhContent()}
+                      onMouseMove={handleOnMouseMove}
+                      style={{'--mouse-x': `${buttonMousePosition.x}px`,
+                              '--mouse-y': `${buttonMousePosition.y}px`}}>
                   yuh
               </button>
           </div>
 
-          <div id='contentContainer' style={{display: panelVisible ? 'flex' : 'none'}}>
+          <div className='contentContainer' style={{display: oddsContent ? 'flex' : 'none'}}>
               <div className='contentPanel'>
                   <div className='hands'>
                       <div id='royalFlush' onMouseEnter={() => {
@@ -98,10 +109,16 @@ function App() {
                                   <p className='infoTitle'>ROYAL FLUSH</p>
                                   <p className='infoText'>
                                       The rarest and most formidable hand conceivable in all of
-                                      poker.
-
+                                      poker. This hand represents the highest ranking straight flush possible. It's
+                                      probability of occurring can be represented as,
                                   </p>
-                                  <Math text={'\\(∫4x\\)'}/>
+                                  <div id='rfMath'>
+                                      <Math text={'\\[P(\\text{Royal Flush}) = ' +
+                                          '\\frac{4 \\times C(47, 2)}{C(52, 7)} ≈ 0.0032\\text{%}\\]'} />
+                                  </div>
+                                  <p>
+                                      On average, you will play 30,939 hands for every royal flush you see.
+                                  </p>
                               </div>
                           );
                           setInfoVisible(true);}}
@@ -135,7 +152,12 @@ function App() {
                           <HandUnderliner handLength={5} />
                       </div>
                       <div id='straight' onMouseEnter={() => {
-                          setInfoContent(<div>nyeyo</div>);
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>STRAIGHT</p>
+                                  <p className='infoText'></p>
+                              </div>
+                          );
                           setInfoVisible(true);}}
                           onMouseLeave={() => setInfoVisible(false)}>
                           STRAIGHT
@@ -166,7 +188,27 @@ function App() {
                           </div>
                           <HandUnderliner handLength={5} />
                       </div>
-                      <div id='straightFlush'>
+                      <div id='straightFlush' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>STRAIGHT FLUSH</p>
+                                  <p className='infoText'>
+                                      A highly impressive hand that forms the blueprint for the royal flush. This hand
+                                      requires fives cards of the same suit which are consecutive to each other
+                                      in rank. Its probability of occurring can be represented as,
+                                  </p>
+                                  <div id='sfMath'>
+                                      <Math text={'\\[P(\\text{Straight Flush}) = \\frac{35 \\times C(47, 2) + ' +
+                                          'C(46, 2)}{C(52, 7)}\\]'}/>
+                                      <Math text={'\\[≈ 0.029\\text{%}\\]'}/>
+                                  </div>
+                                  <p>
+                                      On average, you will play 3,442 hands for every straight flush you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                          onMouseLeave={() => setInfoVisible(false)}>
                           STRAIGHT FLUSH
                           <div className='blkStartCard'>
                               <CardGraphic rank='A'/>
@@ -224,7 +266,26 @@ function App() {
                           </div>
                           <HandUnderliner handLength={3} />
                       </div>
-                      <div id='quads'>
+                      <div id='quads' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>FOUR OF A KIND</p>
+                                  <p className='infoText'>
+                                      A monster hand, elegant in its simplicity and ruthless in its lethality. Every
+                                      instance of one rank must appear to complete this hand. Its probability can be
+                                      represented as,
+                                  </p>
+                                  <div id='qMath'>
+                                      <Math text={'\\[P(\\text{Four of a Kind}) = ' +
+                                          '\\frac{13 \\times C(48, 3)}{C(52, 7)} ≈ 0.168\\text{%}\\]'}/>
+                                  </div>
+                                  <p>
+                                      On average, you will play 594 hands for every four of a kind you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                           onMouseLeave={() => setInfoVisible(false)}>
                           FOUR OF A KIND
                           <div className='redStartCard'>
                               <CardGraphic rank='Q'/>
@@ -282,7 +343,31 @@ function App() {
                           </div>
                           <HandUnderliner handLength={4} />
                       </div>
-                      <div id='fullHouse'>
+                      <div id='fullHouse' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>FULL HOUSE</p>
+                                  <p className='infoText'>
+                                      Often referred to as a boat, a full house rewards the player who's managed to
+                                      managed to decorate their three of a kind with a pair. This mega hand's
+                                      probability of occurring can be represented as,
+                                  </p>
+                                  <div id='fhMath'>
+                                      <Math text={'\\[P(\\text{Full House}) = ' +
+                                          '\\frac{C(13, 2) \\times [C(4, 3)]^2 \\times 44}{C(52, 7)}\\]'}/>
+                                      <Math text={'\\[+ \\, \\frac{13 \\times C(4, 3) \\times C(12, 2) \\times ' +
+                                          '[C(4, 2)]^2}{C(52, 7)}\\]'} />
+                                      <Math text={'\\[ + \\, \\frac{13 \\times C(11, 2) \\times 12' +
+                                          '\\times C(4, 3) \\times C(4, 3) \\times C(4, 2) \\times [C(4, 1)]^2}' +
+                                          '{C(52, 7)} ≈ 2.8\\text{%}\\]'}/>
+                                  </div>
+                                  <p>
+                                      On average, you will play 38 hands for every full house you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                           onMouseLeave={() => setInfoVisible(false)}>
                           FULL HOUSE
                           <div className='blkStartCard'>
                               <CardGraphic rank='A'/>
@@ -406,6 +491,12 @@ function App() {
                       Weakest
                   </div>
                   <HandInfo content={infoContent}/>
+              </div>
+          </div>
+
+          <div className='contentContainer' style={{display: yuhContent ? 'flex' : 'none'}}>
+              <div className='contentPanel'>
+                  gay
               </div>
           </div>
       </>
