@@ -117,7 +117,7 @@ function App() {
                                           '\\frac{4 \\times C(47, 2)}{C(52, 7)} ≈ 0.0032\\text{%}\\]'} />
                                   </div>
                                   <p>
-                                      On average, you will play 30,939 hands for every royal flush you see.
+                                      On average, you will play about 30,939 hands for every royal flush you see.
                                   </p>
                               </div>
                           );
@@ -155,7 +155,22 @@ function App() {
                           setInfoContent(
                               <div>
                                   <p className='infoTitle'>STRAIGHT</p>
-                                  <p className='infoText'></p>
+                                  <p className='infoText'>
+                                      A very strong hand that's difficult to put your opponents on. All this hand
+                                      requires is five cards consecutive to each other. It's probability of occurring
+                                      can be represented as,
+                                  </p>
+                                  <div id='sMath'>
+                                      <Math text={'\\[P(\\text{Straight}) = \\frac{217 \\times [4^7 - 756 - 4 - 84]}' +
+                                          '{C(52, 7)}\\]'} />
+                                      <Math text={'\\[+ \\, \\frac{71 \\times 36 \\times 990}{C(52, 7)} + ' +
+                                          '\\frac{10 \\times 5 \\times 4 \\times [256 - 3] + 10 \\times C(5, 2) ' +
+                                          '\\times 2268}{C(52, 7)}\\]'}/>
+                                      <Math text={'\\[≈ 4.62\\text{%}\\]'}/>
+                                  </div>
+                                  <p>
+                                      On average, you will play about 21 hands for every straight you see.
+                                  </p>
                               </div>
                           );
                           setInfoVisible(true);}}
@@ -203,7 +218,7 @@ function App() {
                                       <Math text={'\\[≈ 0.029\\text{%}\\]'}/>
                                   </div>
                                   <p>
-                                      On average, you will play 3,442 hands for every straight flush you see.
+                                      On average, you will play about 3,442 hands for every straight flush you see.
                                   </p>
                               </div>
                           );
@@ -237,7 +252,27 @@ function App() {
                           </div>
                           <HandUnderliner handLength={5} />
                       </div>
-                      <div id='trips'>
+                      <div id='trips' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>THREE OF A KIND</p>
+                                  <p className='infoText'>
+                                      A rare yet ever threatening hand, simply comprised of three cards of the same
+                                      rank. Its probability of occurring can be represented as,
+                                  </p>
+                                  <div id='tMath'>
+                                      <Math text={'\\[P(\\text{Three of a Kind}) =\\]'} />
+                                      <Math text={'\\[\\frac{[C(13, 5) - 10] \\times C(5, 1) \\times C(4, 1) \\times ' +
+                                          '[[C(4, 1)]^4 - 3]}{C(52, 7)} ≈ 4.83\\text{%}\\]'}/>
+
+                                  </div>
+                                  <p>
+                                      On average, you will play about 20 hands for every three of a kind you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                           onMouseLeave={() => setInfoVisible(false)}>
                           THREE OF A KIND
                           <div className='redStartCard'>
                               <CardGraphic rank='7'/>
@@ -272,15 +307,15 @@ function App() {
                                   <p className='infoTitle'>FOUR OF A KIND</p>
                                   <p className='infoText'>
                                       A monster hand, elegant in its simplicity and ruthless in its lethality. Every
-                                      instance of one rank must appear to complete this hand. Its probability can be
-                                      represented as,
+                                      instance of one rank must appear to complete this hand. Its probability of
+                                      occurring can be represented as,
                                   </p>
                                   <div id='qMath'>
                                       <Math text={'\\[P(\\text{Four of a Kind}) = ' +
                                           '\\frac{13 \\times C(48, 3)}{C(52, 7)} ≈ 0.168\\text{%}\\]'}/>
                                   </div>
                                   <p>
-                                      On average, you will play 594 hands for every four of a kind you see.
+                                      On average, you will play about 594 hands for every four of a kind you see.
                                   </p>
                               </div>
                           );
@@ -314,7 +349,27 @@ function App() {
                           </div>
                           <HandUnderliner handLength={4} />
                       </div>
-                      <div id='twoPair'>
+                      <div id='twoPair' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>TWO PAIR</p>
+                                  <p className='infoText'>
+                                      A classic hand; The pair's big brother. As the name suggests, two pairs must
+                                      appear to complete this hand. Its probability of occurring can be represented as,
+                                  </p>
+                                  <div id='tpMath'>
+                                      <Math text={'\\[P(\\text{Two Pair}) = \\frac{1277 \\times 10 \\times' +
+                                          '[6 \\times 62 + 24 \\times 63 + 6 \\times 64]}{C(52, 7)}\\]'} />
+                                      <Math text={'\\[+ \\frac{C(13, 3) \\times [C(4, 1)]^3 \\times 40}{C(52, 7)}' +
+                                          '≈ 23.5\\text{%}\\]'}/>
+                                  </div>
+                                  <p>
+                                      On average, you will play about 3 hands for every two pair you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                           onMouseLeave={() => setInfoVisible(false)}>
                           TWO PAIR
                           <div className='blkStartCard'>
                               <CardGraphic rank='8'/>
@@ -362,7 +417,7 @@ function App() {
                                           '{C(52, 7)} ≈ 2.8\\text{%}\\]'}/>
                                   </div>
                                   <p>
-                                      On average, you will play 38 hands for every full house you see.
+                                      On average, you will play about 38 hands for every full house you see.
                                   </p>
                               </div>
                           );
@@ -396,7 +451,27 @@ function App() {
                           </div>
                           <HandUnderliner handLength={5} />
                       </div>
-                      <div id='pair'>
+                      <div id='pair' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>PAIR</p>
+                                  <p className='infoText'>
+                                      This humble hand will prove to be a common starting place for many of your poker
+                                      plays. A pair requires two cards of the same rank. Its probability of occurring
+                                      can be represented as,
+                                  </p>
+                                  <div id='pMath'>
+                                      <Math text={'\\[P(\\text{Pair}) = \\frac{[C(13, 6) - 71] \\times 6 \\times 6' +
+                                          '\\times 990}{C(52, 7)} ≈ 43.8\\text{%}\\]'}/>
+
+                                  </div>
+                                  <p>
+                                      On average, you will play about 1 hand for every pair you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                           onMouseLeave={() => setInfoVisible(false)}>
                           PAIR
                           <div className='redStartCard'>
                               <CardGraphic rank='K'/>
@@ -425,7 +500,29 @@ function App() {
                           </div>
                           <HandUnderliner handLength={2} />
                       </div>
-                      <div id='flush'>
+                      <div id='flush' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>FLUSH</p>
+                                  <p className='infoText'>
+                                      A killer hand that's easy on the eyes. A flush simply requires five cards of the
+                                      same suit. It's probability of occurring can be represented as,
+                                  </p>
+                                  <div id='fMath'>
+                                      <Math text={'\\[P(\\text{Flush}) = \\frac{4 \\times [C(13, 7) - 217]}' +
+                                          '{C(52, 7)}\\]'}/>
+                                      <Math text={'\\[+ \\, \\frac{4 \\times [C(13, 6) - 71] \\times 39}' +
+                                          '{C(52, 7)} + \\frac{4 \\times [C(13, 5) - 10] \\times C(39, 2)}' +
+                                          '{C(52, 7)}\\]'}/>
+                                      <Math text={'\\[≈ 3.03\\text{%}\\]'}/>
+                                  </div>
+                                  <p>
+                                      On average, you will play about 32 hands for every flush you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                           onMouseLeave={() => setInfoVisible(false)}>
                           FLUSH
                           <div className='redStartCard'>
                               <CardGraphic rank='3'/>
@@ -454,7 +551,26 @@ function App() {
                           </div>
                           <HandUnderliner handLength={5} />
                       </div>
-                      <div id='highCard'>
+                      <div id='highCard' onMouseEnter={() => {
+                          setInfoContent(
+                              <div>
+                                  <p className='infoTitle'>HIGH CARD</p>
+                                  <p className='infoText'>
+                                      A hand is only as good as your opponents think it is; The high card hand exudes
+                                      this attitude as it represents the absence of a hand. It's worth is found in the
+                                      rank of your highest card. It's probability of occurring can be represented as,
+                                  </p>
+                                  <div id='hMath'>
+                                      <Math text={'\\[P(\\text{High Card}) = \\frac{1499 \\times [4^7 - 756 - 4 -84]}' +
+                                          '{C(52, 7)} ≈ 17.4\\text{%}\\]'}/>
+                                  </div>
+                                  <p>
+                                      On average, you will play about 5 hands for every high card you see.
+                                  </p>
+                              </div>
+                          );
+                          setInfoVisible(true);}}
+                           onMouseLeave={() => setInfoVisible(false)}>
                           HIGH CARD
                           <div className='blkStartCard'>
                               <CardGraphic rank='A'/>
