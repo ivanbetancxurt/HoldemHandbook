@@ -58,6 +58,22 @@
   transition: opacity 500ms;
 }
 
+.buttonContentContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonTitle {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.buttonDescription {
+  margin-top: 5px;
+  font-size: 15px;
+  color: #b0acac;
+}
+
 .contentContainer {
   display: none;
   background-color: #1E1E1E;

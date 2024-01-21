@@ -1,6 +1,7 @@
 import './App.css';
 import React, {useState} from 'react';
 import {Context, Text} from 'react-mathjax2';
+import axios from 'axios';
 
 function App() {
   const diamondImg = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1f/Card_diamond.svg/1200px-Card_diamond.svg.png';
@@ -13,23 +14,23 @@ function App() {
 
   const [buttonMousePosition, setButtonMousePosition] = useState({x: 0, y: 0})
 
-  const [oddsContent, setOddsContent] = useState(false);
+  const [handsContent, setHandsContent] = useState(false);
 
   const [yuhContent, setYuhContent] = useState(false);
 
-  const [infoVisible, setInfoVisible] = useState(false);
+  const [handInfoVisible, setHandInfoVisible] = useState(false);
 
-  const [infoContent, setInfoContent] = useState(<div></div>);
+  const [handInfoContent, setHandInfoContent] = useState(<div></div>);
 
-  const showOddsContent = () => {
+  const showHandsContent = () => {
       if (yuhContent) setYuhContent(!yuhContent);
-      setOddsContent(!oddsContent);
+      setHandsContent(!handsContent);
   };
 
   const showYuhContent = () => {
-      if (oddsContent) setOddsContent(!oddsContent);
+      if (handsContent) setHandsContent(!handsContent);
       setYuhContent(!yuhContent);
-  }
+  };
 
   function CardGraphic({rank}) {
       return (<div className='cardText'>{rank}</div>);
@@ -45,7 +46,7 @@ function App() {
 
   function HandInfo({content}) {
       return (
-          <div className='info' style={{display: infoVisible ? 'flex' : 'none'}}>
+          <div className='info' style={{display: handInfoVisible ? 'flex' : 'none'}}>
               {content}
           </div>
       );
@@ -77,7 +78,7 @@ function App() {
           y = e.clientY - rect.top;
 
       setButtonMousePosition({x, y});
-  }
+  };
 
   return (
     <div className='App'>
@@ -86,25 +87,39 @@ function App() {
 
           <div className='App-body'>
               <button className='Button'
-                      onClick={() => showOddsContent()}
+                      onClick={() => showHandsContent()}
                       onMouseMove={handleOnMouseMove}
                       style={{'--mouse-x': `${buttonMousePosition.x}px`,
                               '--mouse-y': `${buttonMousePosition.y}px`}}>
-                  ODDS
+                  <div className='buttonContentContainer'>
+                      <p className='buttonTitle'>
+                          HANDS
+                      </p>
+                      <p className='buttonDescription'>
+                          Learn how each hand ranks and the probability of which they occur on a full board.
+                      </p>
+                  </div>
               </button>
               <button className='Button' onClick={() => showYuhContent()}
                       onMouseMove={handleOnMouseMove}
                       style={{'--mouse-x': `${buttonMousePosition.x}px`,
                               '--mouse-y': `${buttonMousePosition.y}px`}}>
-                  yuh
+                  <div className='buttonContentContainer'>
+                      <p className='buttonTitle'>
+                          EQUITY CALCULATOR
+                      </p>
+                      <p className='buttonDescription'>
+                          Analyze the equity of your and your opponents' hands in any scenario.
+                      </p>
+                  </div>
               </button>
           </div>
 
-          <div className='contentContainer' style={{display: oddsContent ? 'flex' : 'none'}}>
+          <div className='contentContainer' style={{display: handsContent ? 'flex' : 'none'}}>
               <div className='contentPanel'>
                   <div className='hands'>
                       <div id='royalFlush' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>ROYAL FLUSH</p>
                                   <p className='infoText'>
@@ -121,8 +136,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                          onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                          onMouseLeave={() => setHandInfoVisible(false)}>
                           ROYAL FLUSH
                           <div className='redStartCard'>
                               <CardGraphic rank='T'/>
@@ -152,7 +167,7 @@ function App() {
                           <HandUnderliner handLength={5} />
                       </div>
                       <div id='straight' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>STRAIGHT</p>
                                   <p className='infoText'>
@@ -173,8 +188,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                          onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                          onMouseLeave={() => setHandInfoVisible(false)}>
                           STRAIGHT
                           <div className='blkStartCard'>
                               <CardGraphic rank='A'/>
@@ -204,7 +219,7 @@ function App() {
                           <HandUnderliner handLength={5} />
                       </div>
                       <div id='straightFlush' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>STRAIGHT FLUSH</p>
                                   <p className='infoText'>
@@ -222,8 +237,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                          onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                          onMouseLeave={() => setHandInfoVisible(false)}>
                           STRAIGHT FLUSH
                           <div className='blkStartCard'>
                               <CardGraphic rank='A'/>
@@ -253,7 +268,7 @@ function App() {
                           <HandUnderliner handLength={5} />
                       </div>
                       <div id='trips' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>THREE OF A KIND</p>
                                   <p className='infoText'>
@@ -271,8 +286,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                           onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                           onMouseLeave={() => setHandInfoVisible(false)}>
                           THREE OF A KIND
                           <div className='redStartCard'>
                               <CardGraphic rank='7'/>
@@ -302,7 +317,7 @@ function App() {
                           <HandUnderliner handLength={3} />
                       </div>
                       <div id='quads' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>FOUR OF A KIND</p>
                                   <p className='infoText'>
@@ -319,8 +334,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                           onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                           onMouseLeave={() => setHandInfoVisible(false)}>
                           FOUR OF A KIND
                           <div className='redStartCard'>
                               <CardGraphic rank='Q'/>
@@ -350,7 +365,7 @@ function App() {
                           <HandUnderliner handLength={4} />
                       </div>
                       <div id='twoPair' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>TWO PAIR</p>
                                   <p className='infoText'>
@@ -368,8 +383,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                           onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                           onMouseLeave={() => setHandInfoVisible(false)}>
                           TWO PAIR
                           <div className='blkStartCard'>
                               <CardGraphic rank='8'/>
@@ -399,7 +414,7 @@ function App() {
                           <HandUnderliner handLength={4} />
                       </div>
                       <div id='fullHouse' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>FULL HOUSE</p>
                                   <p className='infoText'>
@@ -421,8 +436,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                           onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                           onMouseLeave={() => setHandInfoVisible(false)}>
                           FULL HOUSE
                           <div className='blkStartCard'>
                               <CardGraphic rank='A'/>
@@ -452,7 +467,7 @@ function App() {
                           <HandUnderliner handLength={5} />
                       </div>
                       <div id='pair' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>PAIR</p>
                                   <p className='infoText'>
@@ -470,8 +485,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                           onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                           onMouseLeave={() => setHandInfoVisible(false)}>
                           PAIR
                           <div className='redStartCard'>
                               <CardGraphic rank='K'/>
@@ -501,7 +516,7 @@ function App() {
                           <HandUnderliner handLength={2} />
                       </div>
                       <div id='flush' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>FLUSH</p>
                                   <p className='infoText'>
@@ -521,8 +536,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                           onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                           onMouseLeave={() => setHandInfoVisible(false)}>
                           FLUSH
                           <div className='redStartCard'>
                               <CardGraphic rank='3'/>
@@ -552,7 +567,7 @@ function App() {
                           <HandUnderliner handLength={5} />
                       </div>
                       <div id='highCard' onMouseEnter={() => {
-                          setInfoContent(
+                          setHandInfoContent(
                               <div>
                                   <p className='infoTitle'>HIGH CARD</p>
                                   <p className='infoText'>
@@ -569,8 +584,8 @@ function App() {
                                   </p>
                               </div>
                           );
-                          setInfoVisible(true);}}
-                           onMouseLeave={() => setInfoVisible(false)}>
+                          setHandInfoVisible(true);}}
+                           onMouseLeave={() => setHandInfoVisible(false)}>
                           HIGH CARD
                           <div className='blkStartCard'>
                               <CardGraphic rank='A'/>
@@ -606,7 +621,7 @@ function App() {
                   <div id='weakest'>
                       Weakest
                   </div>
-                  <HandInfo content={infoContent}/>
+                  <HandInfo content={handInfoContent}/>
               </div>
           </div>
 
