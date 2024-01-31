@@ -1,7 +1,8 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Context, Text} from 'react-mathjax2';
 import axios from 'axios';
+import Card from './Card';
 
 function App() {
   const diamondImg = 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1f/Card_diamond.svg/1200px-Card_diamond.svg.png';
@@ -16,23 +17,23 @@ function App() {
 
   const [handsContent, setHandsContent] = useState(false);
 
-  const [yuhContent, setYuhContent] = useState(false);
+  const [equityContent, setEquityContent] = useState(false);
 
   const [handInfoVisible, setHandInfoVisible] = useState(false);
 
   const [handInfoContent, setHandInfoContent] = useState(<div></div>);
 
   const showHandsContent = () => {
-      if (yuhContent) setYuhContent(!yuhContent);
+      if (equityContent) setEquityContent(!equityContent);
       setHandsContent(!handsContent);
   };
 
-  const showYuhContent = () => {
+  const showEquityContent = () => {
       if (handsContent) setHandsContent(!handsContent);
-      setYuhContent(!yuhContent);
+      setEquityContent(!equityContent);
   };
 
-  function CardGraphic({rank}) {
+  function HandsCardGraphic({rank}) {
       return (<div className='cardText'>{rank}</div>);
   }
 
@@ -51,6 +52,24 @@ function App() {
           </div>
       );
   }
+
+  function AvailableCardsGraphic() {
+      return (
+          <div className='availableCardsGraphic'></div>
+      )
+  }
+
+  const [data, setData] = useState([{}]);
+  useEffect(() => {
+        fetch('/members').then(
+            res => res.json()
+        ).then(
+            data => {
+                setData(data)
+                console.log(data)
+            }
+        )
+      }, [])
 
   function HandUnderliner({handLength}) {
       let width = 0;
@@ -80,6 +99,27 @@ function App() {
       setButtonMousePosition({x, y});
   };
 
+  const [deck, setDeck] = useState([new Card('A', 'clubs'), new Card('2', 'clubs'),
+  new Card('3', 'clubs'), new Card('4', 'clubs'), new Card('5', 'clubs'),
+  new Card('5', 'clubs'), new Card('6', 'clubs'), new Card('7', 'clubs'),
+  new Card('8', 'clubs'), new Card('9', 'clubs'), new Card('10', 'clubs'),
+  new Card('J', 'clubs'), new Card('Q', 'clubs'), new Card('K', 'clubs'),
+  new Card('A', 'spades'), new Card('2', 'spades'), new Card('3', 'spades'),
+  new Card('4', 'spades'), new Card('5', 'spades'), new Card('5', 'spades'),
+  new Card('6', 'spades'), new Card('7', 'spades'), new Card('8', 'spades'),
+  new Card('9', 'spades'), new Card('10', 'spades'), new Card('J', 'spades'),
+  new Card('Q', 'spades'), new Card('K', 'spades'),
+  new Card('A', 'diamonds'), new Card('2', 'diamonds'), new Card('3', 'diamonds'),
+  new Card('4', 'diamonds'), new Card('5', 'diamonds'), new Card('5', 'diamonds'),
+  new Card('6', 'diamonds'), new Card('7', 'diamonds'), new Card('8', 'diamonds'),
+  new Card('9', 'diamonds'), new Card('10', 'diamonds'), new Card('J', 'diamonds'),
+  new Card('Q', 'diamonds'), new Card('K', 'diamonds'),
+      new Card('A', 'hearts'), new Card('2', 'hearts'), new Card('3', 'hearts'),
+      new Card('4', 'hearts'), new Card('5', 'hearts'), new Card('5', 'hearts'),
+      new Card('6', 'hearts'), new Card('7', 'hearts'), new Card('8', 'hearts'),
+      new Card('9', 'hearts'), new Card('10', 'hearts'), new Card('J', 'hearts'),
+      new Card('Q', 'hearts'), new Card('K', 'hearts')])
+
   return (
     <div className='App'>
       <>
@@ -100,7 +140,7 @@ function App() {
                       </p>
                   </div>
               </button>
-              <button className='Button' onClick={() => showYuhContent()}
+              <button className='Button' onClick={() => showEquityContent()}
                       onMouseMove={handleOnMouseMove}
                       style={{'--mouse-x': `${buttonMousePosition.x}px`,
                               '--mouse-y': `${buttonMousePosition.y}px`}}>
@@ -140,27 +180,27 @@ function App() {
                           onMouseLeave={() => setHandInfoVisible(false)}>
                           ROYAL FLUSH
                           <div className='redStartCard'>
-                              <CardGraphic rank='T'/>
+                              <HandsCardGraphic rank='T'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div id='rf2card'>
-                              <CardGraphic rank='J'/>
+                              <HandsCardGraphic rank='J'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='Q'/>
+                              <HandsCardGraphic rank='Q'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='K'/>
+                              <HandsCardGraphic rank='K'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='A'/>
+                              <HandsCardGraphic rank='A'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
@@ -192,27 +232,27 @@ function App() {
                           onMouseLeave={() => setHandInfoVisible(false)}>
                           STRAIGHT
                           <div className='blkStartCard'>
-                              <CardGraphic rank='A'/>
+                              <HandsCardGraphic rank='A'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div id='s2card'>
-                              <CardGraphic rank='2'/>
+                              <HandsCardGraphic rank='2'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='3'/>
+                              <HandsCardGraphic rank='3'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='4'/>
+                              <HandsCardGraphic rank='4'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='5'/>
+                              <HandsCardGraphic rank='5'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
@@ -241,27 +281,27 @@ function App() {
                           onMouseLeave={() => setHandInfoVisible(false)}>
                           STRAIGHT FLUSH
                           <div className='blkStartCard'>
-                              <CardGraphic rank='A'/>
+                              <HandsCardGraphic rank='A'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div id='sf2card'>
-                              <CardGraphic rank='2'/>
+                              <HandsCardGraphic rank='2'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='3'/>
+                              <HandsCardGraphic rank='3'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='4'/>
+                              <HandsCardGraphic rank='4'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='5'/>
+                              <HandsCardGraphic rank='5'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
@@ -290,27 +330,27 @@ function App() {
                            onMouseLeave={() => setHandInfoVisible(false)}>
                           THREE OF A KIND
                           <div className='redStartCard'>
-                              <CardGraphic rank='7'/>
+                              <HandsCardGraphic rank='7'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div id='t2card'>
-                              <CardGraphic rank='7'/>
+                              <HandsCardGraphic rank='7'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='7'/>
+                              <HandsCardGraphic rank='7'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='K'/>
+                              <HandsCardGraphic rank='K'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='2'/>
+                              <HandsCardGraphic rank='2'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
@@ -338,27 +378,27 @@ function App() {
                            onMouseLeave={() => setHandInfoVisible(false)}>
                           FOUR OF A KIND
                           <div className='redStartCard'>
-                              <CardGraphic rank='Q'/>
+                              <HandsCardGraphic rank='Q'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div id='q2card'>
-                              <CardGraphic rank='Q'/>
+                              <HandsCardGraphic rank='Q'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='Q'/>
+                              <HandsCardGraphic rank='Q'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='Q'/>
+                              <HandsCardGraphic rank='Q'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='9'/>
+                              <HandsCardGraphic rank='9'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
@@ -369,7 +409,7 @@ function App() {
                               <div>
                                   <p className='infoTitle'>TWO PAIR</p>
                                   <p className='infoText'>
-                                      A classic hand; The pair's big brother. As the name suggests, two pairs must
+                                      A classic hand: The pair's big brother. As the name suggests, two pairs must
                                       appear to complete this hand. Its probability of occurring can be represented as,
                                   </p>
                                   <div id='tpMath'>
@@ -387,27 +427,27 @@ function App() {
                            onMouseLeave={() => setHandInfoVisible(false)}>
                           TWO PAIR
                           <div className='blkStartCard'>
-                              <CardGraphic rank='8'/>
+                              <HandsCardGraphic rank='8'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div id='tp2card'>
-                              <CardGraphic rank='8'/>
+                              <HandsCardGraphic rank='8'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='J'/>
+                              <HandsCardGraphic rank='J'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='J'/>
+                              <HandsCardGraphic rank='J'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='T'/>
+                              <HandsCardGraphic rank='T'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
@@ -440,27 +480,27 @@ function App() {
                            onMouseLeave={() => setHandInfoVisible(false)}>
                           FULL HOUSE
                           <div className='blkStartCard'>
-                              <CardGraphic rank='A'/>
+                              <HandsCardGraphic rank='A'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div id='fh2card'>
-                              <CardGraphic rank='A'/>
+                              <HandsCardGraphic rank='A'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='9'/>
+                              <HandsCardGraphic rank='9'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='9'/>
+                              <HandsCardGraphic rank='9'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='9'/>
+                              <HandsCardGraphic rank='9'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
@@ -489,27 +529,27 @@ function App() {
                            onMouseLeave={() => setHandInfoVisible(false)}>
                           PAIR
                           <div className='redStartCard'>
-                              <CardGraphic rank='K'/>
+                              <HandsCardGraphic rank='K'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div id='p2card'>
-                              <CardGraphic rank='K'/>
+                              <HandsCardGraphic rank='K'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='3'/>
+                              <HandsCardGraphic rank='3'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='J'/>
+                              <HandsCardGraphic rank='J'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='6'/>
+                              <HandsCardGraphic rank='6'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
@@ -540,27 +580,27 @@ function App() {
                            onMouseLeave={() => setHandInfoVisible(false)}>
                           FLUSH
                           <div className='redStartCard'>
-                              <CardGraphic rank='3'/>
+                              <HandsCardGraphic rank='3'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div id='f2card'>
-                              <CardGraphic rank='5'/>
+                              <HandsCardGraphic rank='5'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='Q'/>
+                              <HandsCardGraphic rank='Q'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='9'/>
+                              <HandsCardGraphic rank='9'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='J'/>
+                              <HandsCardGraphic rank='J'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
@@ -588,27 +628,27 @@ function App() {
                            onMouseLeave={() => setHandInfoVisible(false)}>
                           HIGH CARD
                           <div className='blkStartCard'>
-                              <CardGraphic rank='A'/>
+                              <HandsCardGraphic rank='A'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div id='h2card'>
-                              <CardGraphic rank='7'/>
+                              <HandsCardGraphic rank='7'/>
                               <img className='clubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='Q'/>
+                              <HandsCardGraphic rank='Q'/>
                               <img className='diamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
-                              <CardGraphic rank='T'/>
+                              <HandsCardGraphic rank='T'/>
                               <img className='heartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
-                              <CardGraphic rank='5'/>
+                              <HandsCardGraphic rank='5'/>
                               <img className='spadeImg'
                                    src={spadeImg}/>
                           </div>
@@ -625,9 +665,12 @@ function App() {
               </div>
           </div>
 
-          <div className='contentContainer' style={{display: yuhContent ? 'flex' : 'none'}}>
+          <div className='contentContainer' style={{display: equityContent ? 'flex' : 'none'}}>
               <div className='contentPanel'>
-                  gay
+                  <div id='availableCards'>
+
+
+                  </div>
               </div>
           </div>
       </>

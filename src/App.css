@@ -548,7 +548,6 @@
   margin-top: 49px;
 }
 
-
 #strongest {
   position: absolute;
   display: flex;
@@ -571,4 +570,8 @@
   background-color: darkred;
   width: 50px;
   border-radius: 90px;
+}
+
+.availableCardsGraphic {
+
 }
