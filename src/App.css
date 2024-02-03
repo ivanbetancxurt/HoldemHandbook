@@ -381,28 +381,28 @@
   border-top-right-radius: 6px;
 }
 
-.diamondImg {
+.handsDiamondImg {
   position: absolute;
   width: 18px;
   margin-left: 17px;
   margin-top: 12px;
 }
 
-.clubImg {
+.handsClubImg {
   position: absolute;
   height: 23px;
   margin-left: 13px;
   margin-top: 14px;
 }
 
-.heartImg {
+.handsHeartImg {
   position: absolute;
   width: 19px;
   margin-left: 16px;
   margin-top: 14px;
 }
 
-.spadeImg {
+.handsSpadeImg {
   position: absolute;
   width: 20px;
   margin-left: 15px;
@@ -572,6 +572,27 @@
   border-radius: 90px;
 }
 
+.availableCardsClubImg {
+
+}
+
+.availableCardsSpadeImg {
+
+}
+
+.availableCardsDiamondImg {
+
+}
+
+.availableCardsHeartImg {
+
+}
+
+.availableCards {
+
+}
+
 .availableCardsGraphic {
+  display: flex;
 
 }

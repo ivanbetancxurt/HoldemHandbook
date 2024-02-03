@@ -53,9 +53,38 @@ function App() {
       );
   }
 
-  function AvailableCardsGraphic() {
+  function AvailableCardsGraphic({deck, index}) {
+      let img = '';
+      let imgClass = '';
+      let color = 'black';
+      if (deck[index].suit === 'clubs') {
+          img = clubImg;
+          imgClass = 'availableCardsClubImg';
+      }
+      else if (deck[index].suit === 'spades') {
+          img = spadeImg;
+          imgClass = 'availableCardsSpadeImg';
+      }
+      else if (deck[index].suit === 'diamonds') {
+          img = diamondImg;
+          imgClass = 'availableCardsDiamondImg';
+          color = 'red';
+      }
+      else {
+          img = heartImg;
+          imgClass = 'availableCardsHeartImg';
+          color = 'red';
+      }
+
+
+
       return (
-          <div className='availableCardsGraphic'></div>
+          <div className='availableCardsGraphic'>
+              {deck[index].rank}
+              <img className={imgClass} src={img} />
+
+
+          </div>
       )
   }
 
@@ -99,6 +128,8 @@ function App() {
       setButtonMousePosition({x, y});
   };
 
+
+
   const [deck, setDeck] = useState([new Card('A', 'clubs'), new Card('2', 'clubs'),
   new Card('3', 'clubs'), new Card('4', 'clubs'), new Card('5', 'clubs'),
   new Card('5', 'clubs'), new Card('6', 'clubs'), new Card('7', 'clubs'),
@@ -114,11 +145,11 @@ function App() {
   new Card('6', 'diamonds'), new Card('7', 'diamonds'), new Card('8', 'diamonds'),
   new Card('9', 'diamonds'), new Card('10', 'diamonds'), new Card('J', 'diamonds'),
   new Card('Q', 'diamonds'), new Card('K', 'diamonds'),
-      new Card('A', 'hearts'), new Card('2', 'hearts'), new Card('3', 'hearts'),
-      new Card('4', 'hearts'), new Card('5', 'hearts'), new Card('5', 'hearts'),
-      new Card('6', 'hearts'), new Card('7', 'hearts'), new Card('8', 'hearts'),
-      new Card('9', 'hearts'), new Card('10', 'hearts'), new Card('J', 'hearts'),
-      new Card('Q', 'hearts'), new Card('K', 'hearts')])
+  new Card('A', 'hearts'), new Card('2', 'hearts'), new Card('3', 'hearts'),
+  new Card('4', 'hearts'), new Card('5', 'hearts'), new Card('5', 'hearts'),
+  new Card('6', 'hearts'), new Card('7', 'hearts'), new Card('8', 'hearts'),
+  new Card('9', 'hearts'), new Card('10', 'hearts'), new Card('J', 'hearts'),
+  new Card('Q', 'hearts'), new Card('K', 'hearts')]);
 
   return (
     <div className='App'>
@@ -181,27 +212,27 @@ function App() {
                           ROYAL FLUSH
                           <div className='redStartCard'>
                               <HandsCardGraphic rank='T'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div id='rf2card'>
                               <HandsCardGraphic rank='J'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='Q'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='K'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='A'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <HandUnderliner handLength={5} />
@@ -233,27 +264,27 @@ function App() {
                           STRAIGHT
                           <div className='blkStartCard'>
                               <HandsCardGraphic rank='A'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div id='s2card'>
                               <HandsCardGraphic rank='2'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='3'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='4'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='5'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <HandUnderliner handLength={5} />
@@ -282,27 +313,27 @@ function App() {
                           STRAIGHT FLUSH
                           <div className='blkStartCard'>
                               <HandsCardGraphic rank='A'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div id='sf2card'>
                               <HandsCardGraphic rank='2'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='3'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='4'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='5'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <HandUnderliner handLength={5} />
@@ -331,27 +362,27 @@ function App() {
                           THREE OF A KIND
                           <div className='redStartCard'>
                               <HandsCardGraphic rank='7'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div id='t2card'>
                               <HandsCardGraphic rank='7'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='7'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='K'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='2'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <HandUnderliner handLength={3} />
@@ -379,27 +410,27 @@ function App() {
                           FOUR OF A KIND
                           <div className='redStartCard'>
                               <HandsCardGraphic rank='Q'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div id='q2card'>
                               <HandsCardGraphic rank='Q'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='Q'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='Q'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='9'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <HandUnderliner handLength={4} />
@@ -428,27 +459,27 @@ function App() {
                           TWO PAIR
                           <div className='blkStartCard'>
                               <HandsCardGraphic rank='8'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div id='tp2card'>
                               <HandsCardGraphic rank='8'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='J'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='J'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='T'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <HandUnderliner handLength={4} />
@@ -481,27 +512,27 @@ function App() {
                           FULL HOUSE
                           <div className='blkStartCard'>
                               <HandsCardGraphic rank='A'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div id='fh2card'>
                               <HandsCardGraphic rank='A'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='9'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='9'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='9'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <HandUnderliner handLength={5} />
@@ -530,27 +561,27 @@ function App() {
                           PAIR
                           <div className='redStartCard'>
                               <HandsCardGraphic rank='K'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div id='p2card'>
                               <HandsCardGraphic rank='K'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='3'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='J'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='6'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <HandUnderliner handLength={2} />
@@ -581,27 +612,27 @@ function App() {
                           FLUSH
                           <div className='redStartCard'>
                               <HandsCardGraphic rank='3'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div id='f2card'>
                               <HandsCardGraphic rank='5'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='Q'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='9'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='J'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <HandUnderliner handLength={5} />
@@ -629,27 +660,27 @@ function App() {
                           HIGH CARD
                           <div className='blkStartCard'>
                               <HandsCardGraphic rank='A'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div id='h2card'>
                               <HandsCardGraphic rank='7'/>
-                              <img className='clubImg'
+                              <img className='handsClubImg'
                                    src={clubImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='Q'/>
-                              <img className='diamondImg'
+                              <img className='handsDiamondImg'
                                    src={diamondImg}/>
                           </div>
                           <div className='redCard'>
                               <HandsCardGraphic rank='T'/>
-                              <img className='heartImg'
+                              <img className='handsHeartImg'
                                    src={heartImg}/>
                           </div>
                           <div className='blkCard'>
                               <HandsCardGraphic rank='5'/>
-                              <img className='spadeImg'
+                              <img className='handsSpadeImg'
                                    src={spadeImg}/>
                           </div>
                           <HandUnderliner handLength={1} />
@@ -668,6 +699,7 @@ function App() {
           <div className='contentContainer' style={{display: equityContent ? 'flex' : 'none'}}>
               <div className='contentPanel'>
                   <div id='availableCards'>
+                      <AvailableCardsGraphic deck={deck} index={41} />
 
 
                   </div>
