@@ -588,11 +588,15 @@
 
 }
 
-.availableCards {
-
+#availableCards {
+  display: flex;
+  background-color: blue;
+  width: inherit;
+  height: 100px;
 }
 
 .availableCardsGraphic {
-  display: flex;
+
+
 
 }

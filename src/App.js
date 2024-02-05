@@ -56,7 +56,14 @@ function App() {
   function AvailableCardsGraphic({deck, index}) {
       let img = '';
       let imgClass = '';
-      let color = 'black';
+      const [color, setColor] = useState('black');
+
+      useEffect(() => {
+          if (deck[index].suit === 'diamonds' || deck[index].suit === 'hearts') {
+              setColor('red');
+          }
+      }, []);
+
       if (deck[index].suit === 'clubs') {
           img = clubImg;
           imgClass = 'availableCardsClubImg';
@@ -68,24 +75,18 @@ function App() {
       else if (deck[index].suit === 'diamonds') {
           img = diamondImg;
           imgClass = 'availableCardsDiamondImg';
-          color = 'red';
       }
       else {
           img = heartImg;
           imgClass = 'availableCardsHeartImg';
-          color = 'red';
       }
 
-
-
       return (
-          <div className='availableCardsGraphic'>
+          <div className='availableCardsGraphic' style={{color: color}}>
               {deck[index].rank}
               <img className={imgClass} src={img} />
-
-
           </div>
-      )
+      );
   }
 
   const [data, setData] = useState([{}]);
@@ -127,7 +128,6 @@ function App() {
 
       setButtonMousePosition({x, y});
   };
-
 
 
   const [deck, setDeck] = useState([new Card('A', 'clubs'), new Card('2', 'clubs'),
@@ -699,7 +699,8 @@ function App() {
           <div className='contentContainer' style={{display: equityContent ? 'flex' : 'none'}}>
               <div className='contentPanel'>
                   <div id='availableCards'>
-                      <AvailableCardsGraphic deck={deck} index={41} />
+                      <AvailableCardsGraphic deck={deck} index={1} hey/>
+
 
 
                   </div>
