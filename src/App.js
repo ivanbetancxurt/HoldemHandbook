@@ -57,12 +57,24 @@ function App() {
       let img = '';
       let imgClass = '';
       const [color, setColor] = useState('black');
+      const [margin, setMargin] = useState(8);
 
       useEffect(() => {
           if (deck[index].suit === 'diamonds' || deck[index].suit === 'hearts') {
               setColor('red');
           }
       }, []);
+
+      useEffect(() => {
+          if (index === 0) {
+              setMargin(15);
+          }
+      }, []);
+
+      const style = {
+          color: color,
+          marginLeft: margin,
+      }
 
       if (deck[index].suit === 'clubs') {
           img = clubImg;
@@ -82,8 +94,10 @@ function App() {
       }
 
       return (
-          <div className='availableCardsGraphic' style={{color: color}}>
-              {deck[index].rank}
+          <div className='availableCardsGraphic' style={style}>
+              <p className='availableCardText'>
+                  {deck[index].rank}
+              </p>
               <img className={imgClass} src={img} />
           </div>
       );
@@ -699,9 +713,20 @@ function App() {
           <div className='contentContainer' style={{display: equityContent ? 'flex' : 'none'}}>
               <div className='contentPanel'>
                   <div id='availableCards'>
-                      <AvailableCardsGraphic deck={deck} index={1} hey/>
-
-
+                      <AvailableCardsGraphic deck={deck} index={0} />
+                      <AvailableCardsGraphic deck={deck} index={1} />
+                      <AvailableCardsGraphic deck={deck} index={2} />
+                      <AvailableCardsGraphic deck={deck} index={3} />
+                      <AvailableCardsGraphic deck={deck} index={4} />
+                      <AvailableCardsGraphic deck={deck} index={5} />
+                      <AvailableCardsGraphic deck={deck} index={6} />
+                      <AvailableCardsGraphic deck={deck} index={7} />
+                      <AvailableCardsGraphic deck={deck} index={8} />
+                      <AvailableCardsGraphic deck={deck} index={9} />
+                      <AvailableCardsGraphic deck={deck} index={10} />
+                      <AvailableCardsGraphic deck={deck} index={11} />
+                      <AvailableCardsGraphic deck={deck} index={12} />
+                      <AvailableCardsGraphic deck={deck} index={13} />
 
                   </div>
               </div>
